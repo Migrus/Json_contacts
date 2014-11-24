@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,11 +34,17 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 
 public class MyActivity extends ListActivity {
     private static final String DEBUG_TAG = "DEBUG_TAG";
+
+    private RadioGroup radioGroup;
+    private RadioButton sound, vibration, silent;
+
 
     private ProgressDialog pDialog;
 
@@ -85,6 +93,74 @@ public class MyActivity extends ListActivity {
                 startActivity(in);
 
             }
+        });
+
+        //on change radio group
+        radioGroup = (RadioGroup) findViewById(R.id.sort);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // find which radio button is selected
+                if(checkedId == R.id.radioSurname) {
+
+                    Collections.sort(contactList, new Comparator<HashMap< String,String >>() {
+                        @Override
+                        public int compare(HashMap<String, String> first, HashMap<String, String> second) {
+                            //return obj1.name.compareToIgnoreCase(obj2.name);
+                            String firstValue = first.get(TAG_SURNAME);
+                            String secondValue = second.get(TAG_SURNAME);
+                            return firstValue.compareTo(secondValue);
+                        }
+                    });
+                    ListAdapter adapter = new SimpleAdapter(
+                            MyActivity.this, contactList,
+                            R.layout.list_item, new String[] { TAG_NAME, TAG_SURNAME,
+                            TAG_ID }, new int[] { R.id.name,
+                            R.id.surname, R.id.id });
+
+                    setListAdapter(adapter);
+                }
+                else if(checkedId == R.id.radioName) {
+
+                    Collections.sort(contactList, new Comparator<HashMap< String,String >>() {
+                        @Override
+                        public int compare(HashMap<String, String> first, HashMap<String, String> second) {
+                            //return obj1.name.compareToIgnoreCase(obj2.name);
+                            String firstValue = first.get(TAG_NAME);
+                            String secondValue = second.get(TAG_NAME);
+                            return firstValue.compareTo(secondValue);
+                        }
+                    });
+                    ListAdapter adapter = new SimpleAdapter(
+                            MyActivity.this, contactList,
+                            R.layout.list_item, new String[] { TAG_NAME, TAG_SURNAME,
+                            TAG_ID }, new int[] { R.id.name,
+                            R.id.surname, R.id.id });
+
+                    setListAdapter(adapter);
+                }
+                else {
+
+                    Collections.sort(contactList, new Comparator<HashMap< String,String >>() {
+                        @Override
+                        public int compare(HashMap<String, String> first, HashMap<String, String> second) {
+                            //return obj1.name.compareToIgnoreCase(obj2.name);
+                            String firstValue = first.get(TAG_ID);
+                            String secondValue = second.get(TAG_ID);
+                            return firstValue.compareTo(secondValue);
+                        }
+                    });
+                    ListAdapter adapter = new SimpleAdapter(
+                            MyActivity.this, contactList,
+                            R.layout.list_item, new String[] { TAG_NAME, TAG_SURNAME,
+                            TAG_ID }, new int[] { R.id.name,
+                            R.id.surname, R.id.id });
+
+                    setListAdapter(adapter);
+                }
+            }
+
         });
     }
 
@@ -215,6 +291,7 @@ public class MyActivity extends ListActivity {
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
+
             /**
              * Updating parsed JSON data into ListView
              * */
