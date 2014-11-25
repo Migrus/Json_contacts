@@ -32,4 +32,14 @@
         android:textColor="#5d5d5d"
         android:textStyle="bold" />
 
+    <!-- surname label -->
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="E-mail: "
+        android:textColor="#5d5d5d"
+        android:textStyle="bold" />
+
 </LinearLayout>

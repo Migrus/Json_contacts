@@ -14,6 +14,7 @@ public class SingleContactActivity extends Activity {
     private static final String TAG_NAME = "jmeno";
     private static final String TAG_SURNAME = "prijmeni";
     private static final String TAG_ID = "id";
+    private static final String TAG_EMAIL = "email";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,17 +26,20 @@ public class SingleContactActivity extends Activity {
 
         // Get JSON values from previous intent
         String name = in.getStringExtra(TAG_NAME);
-        String email = in.getStringExtra(TAG_SURNAME);
-        String mobile = in.getStringExtra(TAG_ID);
+        String surname = in.getStringExtra(TAG_SURNAME);
+        String id = in.getStringExtra(TAG_ID);
+        String email = in.getStringExtra(TAG_EMAIL);
 
         // Displaying all values on the screen
         TextView lblName = (TextView) findViewById(R.id.name_label);
-        TextView lblEmail = (TextView) findViewById(R.id.surname_label);
-        TextView lblMobile = (TextView) findViewById(R.id.id_label);
+        TextView lblSurname = (TextView) findViewById(R.id.surname_label);
+        TextView lblId = (TextView) findViewById(R.id.id_label);
+        TextView lblEmail = (TextView) findViewById(R.id.email_label);
 
         lblName.setText(name);
+        lblSurname.setText(surname);
+        lblId.setText(id);
         lblEmail.setText(email);
-        lblMobile.setText(mobile);
     }
 
 

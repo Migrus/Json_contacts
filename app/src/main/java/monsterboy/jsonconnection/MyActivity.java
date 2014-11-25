@@ -53,6 +53,7 @@ public class MyActivity extends ListActivity {
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "jmeno";
     private static final String TAG_SURNAME = "prijmeni";
+    private static final String TAG_EMAIL = "email";
 
     // contacts JSONArray
     JSONArray contacts = null;
@@ -79,17 +80,20 @@ public class MyActivity extends ListActivity {
                 // getting values from selected ListItem
                 String name = ((TextView) view.findViewById(R.id.name))
                         .getText().toString();
-                String cost = ((TextView) view.findViewById(R.id.surname))
+                String contactSurname = ((TextView) view.findViewById(R.id.surname))
                         .getText().toString();
-                String description = ((TextView) view.findViewById(R.id.id))
+                String contactId = ((TextView) view.findViewById(R.id.id))
+                        .getText().toString();
+                String contactEmail = ((TextView) view.findViewById(R.id.email))
                         .getText().toString();
 
                 // Starting single contact activity
                 Intent in = new Intent(getApplicationContext(),
                         SingleContactActivity.class);
                 in.putExtra(TAG_NAME, name);
-                in.putExtra(TAG_SURNAME, cost);
-                in.putExtra(TAG_ID, description);
+                in.putExtra(TAG_SURNAME, contactSurname);
+                in.putExtra(TAG_ID, contactId);
+                in.putExtra(TAG_EMAIL, contactEmail);
                 startActivity(in);
 
             }
@@ -116,8 +120,8 @@ public class MyActivity extends ListActivity {
                     ListAdapter adapter = new SimpleAdapter(
                             MyActivity.this, contactList,
                             R.layout.list_item, new String[] { TAG_NAME, TAG_SURNAME,
-                            TAG_ID }, new int[] { R.id.name,
-                            R.id.surname, R.id.id });
+                            TAG_ID, TAG_EMAIL }, new int[] { R.id.name,
+                            R.id.surname, R.id.id, R.id.email });
 
                     setListAdapter(adapter);
                 }
@@ -135,8 +139,8 @@ public class MyActivity extends ListActivity {
                     ListAdapter adapter = new SimpleAdapter(
                             MyActivity.this, contactList,
                             R.layout.list_item, new String[] { TAG_NAME, TAG_SURNAME,
-                            TAG_ID }, new int[] { R.id.name,
-                            R.id.surname, R.id.id });
+                            TAG_ID, TAG_EMAIL }, new int[] { R.id.name,
+                            R.id.surname, R.id.id, R.id.email });
 
                     setListAdapter(adapter);
                 }
@@ -154,8 +158,8 @@ public class MyActivity extends ListActivity {
                     ListAdapter adapter = new SimpleAdapter(
                             MyActivity.this, contactList,
                             R.layout.list_item, new String[] { TAG_NAME, TAG_SURNAME,
-                            TAG_ID }, new int[] { R.id.name,
-                            R.id.surname, R.id.id });
+                            TAG_ID, TAG_EMAIL }, new int[] { R.id.name,
+                            R.id.surname, R.id.id, R.id.email });
 
                     setListAdapter(adapter);
                 }
@@ -243,6 +247,7 @@ public class MyActivity extends ListActivity {
         protected Void doInBackground(String... urls) {
 
             String jsonStr = null;
+            String jsonStrEmail = null;
             // params comes from the execute() call: params[0] is the url.
             try {
                 jsonStr = downloadUrl(urls[0]);
@@ -263,7 +268,16 @@ public class MyActivity extends ListActivity {
 
                         String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_NAME);
-                        String email = c.getString(TAG_SURNAME);
+                        String surname = c.getString(TAG_SURNAME);
+
+                        try {
+                            jsonStrEmail = downloadUrl("http://www.csita.cz/sklad/"+id+".json");
+                        } catch (IOException e) {
+                            return null;
+                        }
+
+                        JSONObject jsonEmailsObj = new JSONObject(jsonStrEmail);
+                        String email = jsonEmailsObj.getString(TAG_EMAIL);
 
                         // tmp hashmap for single contact
                         HashMap<String, String> contact = new HashMap<String, String>();
@@ -271,7 +285,8 @@ public class MyActivity extends ListActivity {
                         // adding each child node to HashMap key => value
                         contact.put(TAG_ID, id);
                         contact.put(TAG_NAME, name);
-                        contact.put(TAG_SURNAME, email);
+                        contact.put(TAG_SURNAME, surname);
+                        contact.put(TAG_EMAIL, email);
 
                         // adding contact to contact list
                         contactList.add(contact);
@@ -298,8 +313,8 @@ public class MyActivity extends ListActivity {
             ListAdapter adapter = new SimpleAdapter(
                     MyActivity.this, contactList,
                     R.layout.list_item, new String[] { TAG_NAME, TAG_SURNAME,
-                    TAG_ID }, new int[] { R.id.name,
-                    R.id.surname, R.id.id });
+                    TAG_ID, TAG_EMAIL }, new int[] { R.id.name,
+                    R.id.surname, R.id.id, R.id.email });
 
             setListAdapter(adapter);
             //showToast(result);

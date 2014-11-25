@@ -4,6 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp">
+
+    <!-- ID Label -->
+    <TextView android:id="@+id/id_label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"/>
     <!-- Name Label -->
     <TextView android:id="@+id/name_label"
         android:layout_width="fill_parent"
@@ -13,14 +19,14 @@
         android:paddingTop="10dip"
         android:paddingBottom="10dip"
         android:textColor="#43bd00"/>
-    <!-- Email Label -->
+    <!-- Surname Label -->
     <TextView android:id="@+id/surname_label"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#acacac"/>
-    <!-- Mobile Label -->
-    <TextView android:id="@+id/id_label"
+    <!-- Surname Label -->
+    <TextView android:id="@+id/email_label"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"/>
+        android:textColor="#acacac"/>
 </LinearLayout>
