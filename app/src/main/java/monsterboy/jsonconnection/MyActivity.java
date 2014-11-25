@@ -3,8 +3,11 @@ package monsterboy.jsonconnection;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -40,6 +43,46 @@ import java.util.HashMap;
 
 
 public class MyActivity extends ListActivity {
+
+    public class SQL extends SQLiteOpenHelper {
+        private static final int DATABASE_VERSION = 2;
+        private static final String TABLE_NAME = "studenti";
+        private static final String SQL_CREATE =
+        "CREATE TABLE `Studenti` ( `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,` jmeno` VARCHAR(10) NULL DEFAULT NULL, `prijmeni` VARCHAR(10) NULL DEFAULT NULL, `email` VARCHAR(20) NULL DEFAULT NULL, PRIMARY KEY (`id`) );";
+
+       // "CREATE TABLE " + "studenti" + " (" +
+         //       "ID" + " INTEGER PRIMARY KEY," +
+           //     "NAME" + " TEXT," +
+             //   "SURNAME" + " TEXT," +
+               // "EMAIL" + " TEXT" +");";
+
+        SQL(Context context) {
+            super(context, TABLE_NAME, null, DATABASE_VERSION);
+        }
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(SQL_CREATE);
+        }
+        @Override
+        public void onUpgrade (SQLiteDatabase db, int oldVersion,
+                               int newVersion) {
+            db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME);
+// zde musíme ošetřit aktualizaci databáze
+        }
+        public void Pridej(int id, String jmeno, String prijmeni, String email ){
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(TAG_ID,id);
+            values.put(TAG_NAME,jmeno);
+            values.put(TAG_SURNAME,prijmeni);
+            values.put(TAG_EMAIL,email);
+            db.insert(TABLE_NAME, null, values);
+            db.close();
+        }
+    }
+
+
+
     private static final String DEBUG_TAG = "DEBUG_TAG";
 
     private RadioGroup radioGroup;
@@ -54,6 +97,7 @@ public class MyActivity extends ListActivity {
     private static final String TAG_NAME = "jmeno";
     private static final String TAG_SURNAME = "prijmeni";
     private static final String TAG_EMAIL = "email";
+
 
     // contacts JSONArray
     JSONArray contacts = null;

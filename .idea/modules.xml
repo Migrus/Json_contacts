@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Json_contacts.iml" filepath="$PROJECT_DIR$/Json_contacts.iml" />
       <module fileurl="file://$PROJECT_DIR$/Jsonconnection.iml" filepath="$PROJECT_DIR$/Jsonconnection.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
